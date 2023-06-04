@@ -20,55 +20,49 @@ export default function Home() {
   };
 
   const fetchMovie = async () => {
+    const responseElement = document.getElementById("response");
+    if (responseElement) responseElement.innerHTML = "Fetching...";
+
     let titleElement = document.getElementById("film") as HTMLInputElement;
     let title = "Howl's Moving Castle";
     if (titleElement) title = titleElement.value;
-    const response = await fetch(`http://localhost:6543/films?search=${title}`);
-    const data = await response.json();
+    const response = fetch(`http://localhost:6543/films?search=${title}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setTimeout(() => {
+          if (responseElement)
+            responseElement.innerHTML = JSON.stringify(data, null, 2);
+        }, 300);
+      })
+      .catch((err) => {
+        if (responseElement) responseElement.innerHTML = "Failed to fetch";
+      });
+  };
 
+  const fetchRandomMovie = async () => {
     const responseElement = document.getElementById("response");
-    if (responseElement)
-      responseElement.innerHTML = JSON.stringify(data, null, 2);
+    if (responseElement) responseElement.innerHTML = "Fetching...";
+
+    const response = fetch(`http://localhost:6543/films/random`)
+      .then((res) => res.json())
+      .then((data) => {
+        setTimeout(() => {
+          if (responseElement)
+            responseElement.innerHTML = JSON.stringify(data, null, 2);
+        }, 300);
+      })
+      .catch((err) => {
+        if (responseElement) responseElement.innerHTML = "Failed to fetch";
+      });
   };
 
   useEffect(() => {
-    fetchMovie();
+    fetchRandomMovie();
   }, []);
 
   useEffect(() => {
-    const code = document.getElementById("response");
-    if (code !== null) {
-      code.innerHTML = JSON.stringify(
-        [
-          {
-            id: "cd3d059c-09f4-4ff3-8d63-bc765a5184fa",
-            title: "Howl's Moving Castle",
-            original_title: "ハウルの動く城",
-            original_title_romanised: "Hauru no ugoku shiro",
-            image:
-              "https://image.tmdb.org/t/p/w600_and_h900_bestv2/TkTPELv4kC3u1lkloush8skOjE.jpg",
-            movie_banner:
-              "https://image.tmdb.org/t/p/original/hjlvbMKhQm7N8tYynr8yQ8GBmqe.jpg",
-            description:
-              "When Sophie, a shy young woman, is cursed with an old body by a spiteful witch, her only chance of breaking the spell lies with a self-indulgent yet insecure young wizard and his companions in his legged, walking home.",
-            director: "Hayao Miyazaki",
-            producer: "Toshio Suzuki",
-            release_date: "2004",
-            running_time: "119",
-            rt_score: "87",
-            people: ["https://ghibli.rest/people/"],
-            species: [
-              "https://ghibli.rest/species/af3910a6-429f-4c74-9ad5-dfe1c4aa04f2",
-            ],
-            locations: ["https://ghibli.rest/locations/"],
-            vehicles: ["https://ghibli.rest/vehicles/"],
-            url: "https://ghibli.rest/films/cd3d059c-09f4-4ff3-8d63-bc765a5184fa",
-          },
-        ],
-        null,
-        2
-      );
-    }
+    const responseElement = document.getElementById("response");
+    if (responseElement) responseElement.innerHTML = "Fetching...";
   });
 
   return (
@@ -131,11 +125,10 @@ export default function Home() {
                 type="text"
                 placeholder="Film Title"
                 id="film"
-                defaultValue="Howl's Moving Castle"
-                onKeyUp={(e) => fetchMovie()}
+                onSubmit={(e) => fetchMovie()}
               />
-              <i onClick={() => fetchMovie()} className={"bx bx-refresh"}></i>
-              <i className={"bx bx-cube-alt"}></i>
+              <i onClick={() => fetchMovie()} className={"bx bx-search"}></i>
+              <i onClick={() => fetchRandomMovie()} className={"bx bx-cube-alt"}></i>
             </div>
           </div>
           <div className={`${styles.response}`}>
