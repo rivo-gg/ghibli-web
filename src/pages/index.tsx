@@ -1,6 +1,5 @@
 import Head from "next/head";
-import Image from "next/image";
-import { Inter } from "next/font/google";
+import Nav from "@/components/nav";
 import styles from "@/styles/Home.module.css";
 import Link from "next/link";
 import highlight from "highlight.js";
@@ -78,24 +77,8 @@ export default function Home() {
         <link rel="icon" href="/logo.png" />
       </Head>
       <main className={`${styles.main}`}>
-        <nav>
-          <div className={`${styles.title}`}>
-            <Image src="/logo.png" alt="" width={42} height={42}></Image>
-            <h1>ghibli.rest</h1>
-          </div>
-          <div className={`${styles.links}`}>
-            <Link href="/">Home</Link>
-            <a onClick={() => scrollToClass("demo")}>Demo</a>
-            <a>Stats</a>
-            <Link href="/docs">Docs</Link>
-            <Link
-              href="https://donate.ghibli.rest"
-              className={`${styles.donate}`}
-            >
-              Donate
-            </Link>
-          </div>
-        </nav>
+        
+        <Nav />
 
         <div className={`${styles.welcome}`}>
           <h1>ghibli.rest</h1>
