@@ -81,22 +81,25 @@ export default function Home() {
         <Nav />
 
         <div className={`${styles.welcome}`}>
-          <h1>ghibli.rest</h1>
-          <p>
-            Explore the Magical World of Studio Ghibli with ghibli.rest, the
-            Discord Bot for All Ghibli Enthusiasts
-          </p>
-          <div className={`${styles.buttons}`}>
-            <a
-              onClick={() => scrollToClass("demo")}
-              className={`${styles.button}`}
-            >
-              Demo
-            </a>
-            <Link href="/docs" className={`${styles.button}`}>
-              Documentation
-            </Link>
+          <div className={`${styles.text}`}>
+            <h1>ghibli.rest</h1>
+            <p>
+              Explore the Magical World of Studio Ghibli with ghibli.rest, the
+              Discord Bot for All Ghibli Enthusiasts
+            </p>
+            <div className={`${styles.buttons}`}>
+              <a
+                onClick={() => scrollToClass("demo")}
+                className={`${styles.button}`}
+              >
+                Demo
+              </a>
+              <Link href="/docs" className={`${styles.button}`}>
+                Documentation
+              </Link>
+            </div>
           </div>
+          <Image src="/welcome2.png" width={449} height={520} alt=""></Image>
         </div>
 
         <div className={`${styles.demo} demo`}>
@@ -111,7 +114,10 @@ export default function Home() {
                 onSubmit={(e) => fetchMovie()}
               />
               <i onClick={() => fetchMovie()} className={"bx bx-search"}></i>
-              <i onClick={() => fetchRandomMovie()} className={"bx bx-cube-alt"}></i>
+              <i
+                onClick={() => fetchRandomMovie()}
+                className={"bx bx-cube-alt"}
+              ></i>
             </div>
           </div>
           <div className={`${styles.response}`}>

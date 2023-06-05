@@ -121,9 +121,30 @@
 
 .main .welcome {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   margin-top: 350px;
   color: #ffffff;
+  width: 100%;
+  justify-content: space-between;
+  animation: slideIn_welcome 1s ease-out;
+}
+
+@keyframes slideIn_welcome {
+  0% {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+.main .welcome .text {
+  display: flex;
+  flex-direction: column;
+  color: #ffffff;
+  margin-left: 100px;
 }
 
 .main .welcome h1 {
@@ -135,7 +156,7 @@
   color: #9f9f9f;
   font-weight: 300;
   font-size: 20px;
-  width: 30%;
+  width: 60%;
 }
 
 .main .welcome .buttons {
@@ -172,12 +193,22 @@
   border: 1.5px solid #b96c359c;
 }
 
+.main .welcome img {
+  width: 30%;
+  height: 30%;
+  margin-left: 50px;
+  border-radius: 6px;
+  margin-top: -200px;
+  margin-right: 100px;
+  border: 1.5px solid #c5c5c5;
+}
+
 .main .demo {
   margin-left: -200px;
   padding: 90px 200px;
   background-color: #000000;
   width: calc(100% + 400px);
-  margin-top: 550px;
+  margin-top: 280px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
