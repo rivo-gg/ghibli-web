@@ -17,20 +17,17 @@ export default function Nav() {
   };
   return (
     <>
-      <nav className={styles.nav}>
+      <nav className={`${styles.nav}`}>
         <div className={styles.title}>
           <Image src="/logo.png" alt="" width={42} height={42}></Image>
           <h1>ghibli.rest</h1>
         </div>
-        <div className={styles.links}>
+        <div className={`${styles.links}`}>
           <Link href="/">Home</Link>
           <a onClick={() => scrollToClass("demo")}>Demo</a>
           <Link href="/status">Status</Link>
           <Link href="/docs">Docs</Link>
-          <Link
-            href="https://donate.ghibli.rest"
-            className={styles.donate}
-          >
+          <Link href="https://donate.ghibli.rest" className={styles.donate}>
             Donate
           </Link>
         </div>

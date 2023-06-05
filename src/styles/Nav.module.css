@@ -1,35 +1,36 @@
 .nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
- .title {
+nav .title {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
- .title img {
+nav .title img {
   width: 45px;
   height: 45px;
   margin-right: 15px;
 }
 
- .title h1 {
+nav .title h1 {
   font-size: 21px;
   color: #fff;
   margin-bottom: 5px;
   font-weight: 600;
 }
 
- .links {
+nav .links {
   display: flex;
   flex-direction: row;
   align-items: center;
+  width: fit-content;
 }
 
- .links a {
+nav .links a {
   font-size: 19px;
   color: #9f9f9f;
   font-weight: 400;
@@ -40,16 +41,16 @@
   position: relative;
 }
 
- .links a:not(:last-child) {
-  margin-right: 30px;
+nav .links a:not(:last-child) {
+  margin-right: 25px;
 }
 
- .links a.donate {
+nav .links a.donate {
   color: #dd7930;
   text-shadow: 1px 1px 3px #dd7930;
 }
 
- .links a:not(.donate)::after {
+nav .links a:not(.donate)::after {
   content: "";
   position: absolute;
   width: 100%;
@@ -62,21 +63,21 @@
   transition: transform 0.3s ease-out;
 }
 
- .links a:hover {
+nav .links a:hover {
   color: #8d8d8d;
 }
 
- .links a:active {
+nav .links a:active {
   color: #777777;
 }
 
- .links a:not(.donate):hover::after {
+nav .links a:not(.donate):hover::after {
   transform: scaleX(1);
   transform-origin: bottom left;
   background-color: #8d8d8d;
 }
 
- .links a.donate::after {
+nav .links a.donate::after {
   content: "";
   position: absolute;
   width: 100%;
@@ -89,11 +90,11 @@
   transition: transform 0.3s ease-out;
 }
 
- .links a.donate:hover {
+nav .links a.donate:hover {
   color: #bb672a;
 }
 
- .links a.donate:hover::after {
+nav .links a.donate:hover::after {
   transform: scaleX(1);
   transform-origin: bottom left;
   background-color: #bb672a;
