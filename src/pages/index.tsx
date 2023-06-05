@@ -4,6 +4,7 @@ import styles from "@/styles/Home.module.css";
 import Link from "next/link";
 import highlight from "highlight.js";
 import { use, useEffect } from "react";
+import Image from "next/image";
 
 export default function Home() {
   const scrollToClass = (className: string) => {
@@ -77,7 +78,6 @@ export default function Home() {
         <link rel="icon" href="/logo.png" />
       </Head>
       <main className={`${styles.main}`}>
-        
         <Nav />
 
         <div className={`${styles.welcome}`}>
@@ -99,7 +99,13 @@ export default function Home() {
               </Link>
             </div>
           </div>
-          <Image src="/welcome2.png" width={449} height={520} alt=""></Image>
+          <Image
+            src="/welcome2.png"
+            width={449}
+            height={520}
+            alt=""
+            draggable={false}
+          ></Image>
         </div>
 
         <div className={`${styles.demo} demo`}>
