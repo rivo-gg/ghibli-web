@@ -1,11 +1,5 @@
 @import url("./fonts.css");
 
-.status {
-  display: flex;
-  align-items: center;
-  margin-top: 50px;
-}
-
 .main {
   background-color: #0e0e0e;
   background-size: 15px 15px;
@@ -15,108 +9,7 @@
   height: 100vh;
   font-family: "Poppins", sans-serif;
   user-select: none;
-  padding: 40px 200px;
-}
-
-.main nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.main nav .title {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.main nav .title img {
-  width: 45px;
-  height: 45px;
-  margin-right: 15px;
-}
-
-.main nav .title h1 {
-  font-size: 21px;
-  color: #fff;
-  margin-bottom: 5px;
-  font-weight: 600;
-}
-
-.main nav .links {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.main nav .links a {
-  font-size: 19px;
-  color: #9f9f9f;
-  font-weight: 400;
-  text-decoration: none;
-  cursor: pointer;
-  transition: ease 0.2s;
-  display: inline-block;
-  position: relative;
-}
-
-.main nav .links a:not(:last-child) {
-  margin-right: 30px;
-}
-
-.main nav .links a.donate {
-  color: #dd7930;
-  text-shadow: 1px 1px 3px #dd7930;
-}
-
-.main nav .links a:not(.donate)::after {
-  content: "";
-  position: absolute;
-  width: 100%;
-  transform: scaleX(0);
-  height: 2px;
-  bottom: 2px;
-  left: 0;
-  background-color: #acacac;
-  transform-origin: bottom right;
-  transition: transform 0.3s ease-out;
-}
-
-.main nav .links a:hover {
-  color: #8d8d8d;
-}
-
-.main nav .links a:active {
-  color: #777777;
-}
-
-.main nav .links a:not(.donate):hover::after {
-  transform: scaleX(1);
-  transform-origin: bottom left;
-  background-color: #8d8d8d;
-}
-
-.main nav .links a.donate::after {
-  content: "";
-  position: absolute;
-  width: 100%;
-  transform: scaleX(0);
-  height: 2px;
-  bottom: 2px;
-  left: 0;
-  background-color: #dd7930;
-  transform-origin: bottom right;
-  transition: transform 0.3s ease-out;
-}
-
-.main nav .links a.donate:hover {
-  color: #bb672a;
-}
-
-.main nav .links a.donate:hover::after {
-  transform: scaleX(1);
-  transform-origin: bottom left;
-  background-color: #bb672a;
+  padding: 40px 400px;
 }
 
 .main .welcome {
@@ -144,7 +37,6 @@
   display: flex;
   flex-direction: column;
   color: #ffffff;
-  margin-left: 100px;
 }
 
 .main .welcome h1 {
@@ -199,16 +91,16 @@
   margin-left: 50px;
   border-radius: 6px;
   margin-top: -200px;
-  margin-right: 100px;
   border: 1.5px solid #c5c5c5;
 }
 
 .main .demo {
-  margin-left: -200px;
-  padding: 90px 200px;
+  margin-left: -400px;
+  padding: 90px 400px;
   background-color: #000000;
-  width: calc(100% + 400px);
+  width: calc(100% + 800px);
   margin-top: 280px;
+  transition: ease-out .2s;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
