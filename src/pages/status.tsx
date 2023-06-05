@@ -36,12 +36,36 @@ export const options = {
   },
 };
 
+const dayMap: any = {
+  0: "Sunday",
+  1: "Monday",
+  2: "Tuesday",
+  3: "Wednesday",
+  4: "Thursday",
+  5: "Friday",
+  6: "Saturday"
+};
+
+const getPastWeekDays = () => {
+  const today = new Date();
+  const pastWeekDays = [];
+
+  for (let i = 0; i < 7; i++) {
+    const pastDay = new Date(today);
+    pastDay.setDate(today.getDate() - i);
+    pastWeekDays.unshift(dayMap[pastDay.getDay()]);
+  }
+
+  return pastWeekDays;
+};
+
+
 export const data = {
-  labels: ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7"],
+  labels: getPastWeekDays(),
   datasets: [
     {
       label: "Requests",
-      data: [233, 827, 888, 895, 484, 813, 565], // Example request data for each day
+      data: [827, 888, 895, 484, 813, 565, 1880], // Example request data for each day
       fill: true,
       borderColor: "rgba(255,255,255,1)",
       tension: 0.4,
