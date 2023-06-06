@@ -7,6 +7,7 @@ import {
   LineElement,
   BarElement,
   Title,
+  Filler,
   Tooltip,
   Legend,
 } from "chart.js";
@@ -22,6 +23,7 @@ ChartJS.register(
   LineElement,
   BarElement,
   Title,
+  Filler,
   Tooltip,
   Legend
 );
@@ -80,9 +82,10 @@ export const data = {
   datasets: [
     {
       label: "Requests",
-      data: [827, 888, 895, 484, 813, 565, 1880], // Example request data for each day
+      data: [888, 895, 484, 813, 565, 1880, 4960], // Example request data for each day
       fill: true,
       borderColor: "rgba(255,255,255,1)",
+      backgroundColor: "rgba(255,255,255,0.4)",
       tension: 0.4,
     },
   ],
@@ -112,16 +115,6 @@ const month = String(currentDate.getMonth() + 1).padStart(2, "0");
 const year = currentDate.getFullYear();
 
 const formattedDate = `${day}.${month}.${year}`;
-
-const stylesstatus = {
-  legend: {
-    fontSize: "20px",
-    color: "#fff",
-    fontFamily: "Poppins, sans-serif",
-    marginbottom: "10px",
-    margin: "10px",
-  },
-};
 
 const Status = () => {
   const [isOnline, setIsOnline] = useState(false);
@@ -205,11 +198,15 @@ const Status = () => {
             className={`${isOnline ? styles.online : styles.offline}`}
           ></span>
         </div>
-        <div className={`${styles.container}`}>
-          <h1 style={stylesstatus.legend}>Requests in the past 7 days</h1>
-          <Line options={options} data={data} draggable={false} />
-          <h1 style={stylesstatus.legend}>Endpoint usage</h1>
-          <Bar options={options2} data={data2} />
+        <div className={`${styles.graphs}`}>
+          <div className={`${styles.container}`}>
+            <h1 className={styles.legend}>Requests in the past 7 days</h1>
+            <Line options={options} data={data} draggable={false} />
+          </div>
+          <div className={`${styles.container}`}>
+            <h1 className={styles.legend}>Most requested endpoints</h1>
+            <Bar options={options2} data={data2} draggable={false} />
+          </div>
         </div>
       </main>
     </>
