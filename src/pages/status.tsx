@@ -5,25 +5,41 @@ import {
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend,
 } from "chart.js";
 import Nav from "@/components/nav";
 import styles from "@/styles/Status.module.css";
-import { Line } from "react-chartjs-2";
+import { Line, Bar } from "react-chartjs-2";
+import dynamic from "next/dynamic";
 
 ChartJS.register(
   CategoryScale,
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend
 );
 
 export const options = {
+  responsive: true,
+  maintainAspectRatio: true,
+  plugins: {
+    legend: {
+      position: "top" as const,
+    },
+    title: {
+      display: false,
+    },
+  },
+};
+
+export const options2 = {
   responsive: true,
   maintainAspectRatio: true,
   plugins: {
@@ -43,7 +59,7 @@ const dayMap: any = {
   3: "Wednesday",
   4: "Thursday",
   5: "Friday",
-  6: "Saturday"
+  6: "Saturday",
 };
 
 const getPastWeekDays = () => {
@@ -59,7 +75,6 @@ const getPastWeekDays = () => {
   return pastWeekDays;
 };
 
-
 export const data = {
   labels: getPastWeekDays(),
   datasets: [
@@ -68,6 +83,61 @@ export const data = {
       data: [827, 888, 895, 484, 813, 565, 1880], // Example request data for each day
       fill: true,
       borderColor: "rgba(255,255,255,1)",
+      tension: 0.4,
+    },
+  ],
+  options: {
+    title: {
+      text: "Hello",
+      display: true,
+    },
+    scales: {
+      xAxes: [
+        {
+          ticks: {
+            display: false,
+          },
+        },
+      ],
+    },
+    legend: {
+      display: false,
+    },
+  },
+};
+
+let urls: Array<String> = [];
+let reqCounts: Array<Number> = [];
+
+const currentDate = new Date();
+const day = String(currentDate.getDate()).padStart(2, "0");
+const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+const year = currentDate.getFullYear();
+
+const formattedDate = `${day}.${month}.${year}`;
+
+fetch(`https://ghibli.rest/stats`)
+  .then((response) => response.json())
+  .then((data) => {
+    const responseData = data[formattedDate];
+    console.log(responseData);
+
+    urls.push(...responseData.map((item: any) => item.url));
+    reqCounts.push(...responseData.map((item: any) => item.req));
+  })
+  .catch((error) => {
+    console.error("Error:", error);
+  });
+
+
+export const data2 = {
+  labels: urls,
+  datasets: [
+    {
+      label: "Usage",
+      data: reqCounts, // Example request data for each day
+      fill: true,
+      backgroundColor: "rgba(255,255,255,0.5)",
       tension: 0.4,
     },
   ],
@@ -101,7 +171,7 @@ const stylesstatus = {
   },
 };
 
-export default function Status() {
+const Status = () => {
   const [isOnline, setIsOnline] = useState(false);
 
   useEffect(() => {
@@ -126,6 +196,7 @@ export default function Status() {
       <main className={`${styles.main}`}>
         <Nav />
         <div className={`${styles.status}`}>
+          <h1>{}</h1>
           <h1 className={`${styles.title}`}>
             Ghibli.rest is {isOnline ? "online" : "offline"}
           </h1>
@@ -134,10 +205,14 @@ export default function Status() {
           ></span>
         </div>
         <div className={`${styles.container}`}>
-          <h1 style={stylesstatus.legend}>API requests past 7 days</h1>
+          <h1 style={stylesstatus.legend}>Requests in the past 7 days</h1>
           <Line options={options} data={data} draggable={false} />
+          <h1 style={stylesstatus.legend}>Endpoint usage</h1>
+          <Bar options={options2} data={data2} />
         </div>
       </main>
     </>
   );
 }
+
+export default dynamic (() => Promise.resolve(Status), {ssr: false})
