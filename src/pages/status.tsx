@@ -28,28 +28,26 @@ ChartJS.register(
   Legend
 );
 
-export const options = {
+export const optionData = {
   responsive: true,
   maintainAspectRatio: true,
   plugins: {
     legend: {
-      position: "top" as const,
+      display: false,
     },
     title: {
       display: false,
     },
   },
-};
-
-export const options2 = {
-  responsive: true,
-  maintainAspectRatio: true,
-  plugins: {
-    legend: {
-      position: "top" as const,
-    },
-    title: {
-      display: false,
+  title: {
+    text: "",
+    display: true,
+  },
+  tooltips: {
+    callbacks: {
+      label: (tooltipItem: any) =>
+        `${tooltipItem.yLabel}: ${tooltipItem.xLabel}`,
+      title: () => null,
     },
   },
 };
@@ -62,6 +60,26 @@ const dayMap: any = {
   4: "Thursday",
   5: "Friday",
   6: "Saturday",
+};
+
+const getLastDays: any = () => {
+  const days: string[] = [];
+  const today: Date = new Date();
+
+  for (let i = 6; i >= 0; i--) {
+    const tag: Date = new Date(today);
+    tag.setDate(tag.getDate() - i);
+
+    const tagString: string = tag.toLocaleDateString("de-DE", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+
+    days.push(tagString);
+  }
+
+  return days;
 };
 
 const getPastWeekDays = () => {
@@ -77,38 +95,6 @@ const getPastWeekDays = () => {
   return pastWeekDays;
 };
 
-export const data = {
-  labels: getPastWeekDays(),
-  datasets: [
-    {
-      label: "Requests",
-      data: [888, 895, 484, 813, 565, 1880, 4960], // Example request data for each day
-      fill: true,
-      borderColor: "rgba(255,255,255,1)",
-      backgroundColor: "rgba(255,255,255,0.4)",
-      tension: 0.4,
-    },
-  ],
-  options: {
-    title: {
-      text: "Hello",
-      display: true,
-    },
-    scales: {
-      xAxes: [
-        {
-          ticks: {
-            display: false,
-          },
-        },
-      ],
-    },
-    legend: {
-      display: false,
-    },
-  },
-};
-
 const currentDate = new Date();
 const day = String(currentDate.getDate()).padStart(2, "0");
 const month = String(currentDate.getMonth() + 1).padStart(2, "0");
@@ -120,6 +106,7 @@ const Status = () => {
   const [isOnline, setIsOnline] = useState(false);
   const [reqCounts, setReqCounts] = useState();
   const [urls, setUrls] = useState();
+  const [pastWeekData, setPastWeekData] = useState();
 
   useEffect(() => {
     const checkApiStatus = async () => {
@@ -143,46 +130,56 @@ const Status = () => {
       .then((response) => response.json())
       .then((data) => {
         const responseData = data[formattedDate];
-        console.log(responseData);
         setUrls(responseData.map((item: any) => item.url));
-        setReqCounts(responseData.map((item: any) => item.req));
+        setReqCounts(
+          responseData.map((item: any) => (item.req ? item.req : 0))
+        );
+
+        let dayDataList: any = [];
+        getLastDays().forEach((day: any) => {
+          const dayData = data[day];
+          if (dayData) {
+            dayDataList.push(
+              dayData
+                .map((item: any) => item.req)
+                .reduce((a: any, b: any) => a + b, 0)
+            );
+          } else {
+            dayDataList.push(0);
+          }
+        });
+
+        setPastWeekData(dayDataList);
       })
       .catch((error) => {
         console.error("Error:", error);
       });
   }, []);
 
-  console.log(reqCounts);
+  const data = {
+    labels: getPastWeekDays(),
+    datasets: [
+      {
+        label: "Requests",
+        data: pastWeekData, // Example request data for each day
+        fill: true,
+        borderColor: "rgba(255,255,255,1)",
+        backgroundColor: "rgba(255,255,255,0.4)",
+        tension: 0.4,
+      },
+    ],
+  };
 
-  let data2 = {
+  const data2 = {
     labels: urls,
     datasets: [
       {
         label: "Usage",
         data: reqCounts, // Example request data for each day
-        fill: true,
         backgroundColor: "rgba(255,255,255,0.5)",
         tension: 0.4,
       },
     ],
-    options: {
-      title: {
-        text: "Hello",
-        display: true,
-      },
-      scales: {
-        xAxes: [
-          {
-            ticks: {
-              display: false,
-            },
-          },
-        ],
-      },
-      legend: {
-        display: false,
-      },
-    },
   };
 
   return (
@@ -201,11 +198,11 @@ const Status = () => {
         <div className={`${styles.graphs}`}>
           <div className={`${styles.container}`}>
             <h1 className={styles.legend}>Requests in the past 7 days</h1>
-            <Line options={options} data={data} draggable={false} />
+            <Line options={optionData} data={data} draggable={false} />
           </div>
           <div className={`${styles.container}`}>
             <h1 className={styles.legend}>Most requested endpoints</h1>
-            <Bar options={options2} data={data2} draggable={false} />
+            <Bar options={optionData} data={data2} draggable={false} />
           </div>
         </div>
       </main>
