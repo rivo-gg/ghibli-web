@@ -26,7 +26,7 @@ export default function Home() {
     let titleElement = document.getElementById("film") as HTMLInputElement;
     let title = "Howl's Moving Castle";
     if (titleElement) title = titleElement.value;
-    const response = fetch(`http://localhost:6543/films?search=${title}`)
+    const response = fetch(`https://ghibli.rest/films?search=${title}`)
       .then((res) => res.json())
       .then((data) => {
         setTimeout(() => {
@@ -43,7 +43,7 @@ export default function Home() {
     const responseElement = document.getElementById("response");
     if (responseElement) responseElement.innerHTML = "Fetching...";
 
-    const response = fetch(`http://localhost:6543/films/random`)
+    const response = fetch(`https://ghibli.rest/films/random`)
       .then((res) => res.json())
       .then((data) => {
         setTimeout(() => {
