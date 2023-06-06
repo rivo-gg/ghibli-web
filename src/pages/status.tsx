@@ -106,60 +106,12 @@ export const data = {
   },
 };
 
-let urls: Array<String> = [];
-let reqCounts: Array<Number> = [];
-
 const currentDate = new Date();
 const day = String(currentDate.getDate()).padStart(2, "0");
 const month = String(currentDate.getMonth() + 1).padStart(2, "0");
 const year = currentDate.getFullYear();
 
 const formattedDate = `${day}.${month}.${year}`;
-
-fetch(`https://ghibli.rest/stats`)
-  .then((response) => response.json())
-  .then((data) => {
-    const responseData = data[formattedDate];
-    console.log(responseData);
-
-    urls.push(...responseData.map((item: any) => item.url));
-    reqCounts.push(...responseData.map((item: any) => item.req));
-  })
-  .catch((error) => {
-    console.error("Error:", error);
-  });
-
-
-export const data2 = {
-  labels: urls,
-  datasets: [
-    {
-      label: "Usage",
-      data: reqCounts, // Example request data for each day
-      fill: true,
-      backgroundColor: "rgba(255,255,255,0.5)",
-      tension: 0.4,
-    },
-  ],
-  options: {
-    title: {
-      text: "Hello",
-      display: true,
-    },
-    scales: {
-      xAxes: [
-        {
-          ticks: {
-            display: false,
-          },
-        },
-      ],
-    },
-    legend: {
-      display: false,
-    },
-  },
-};
 
 const stylesstatus = {
   legend: {
@@ -173,6 +125,8 @@ const stylesstatus = {
 
 const Status = () => {
   const [isOnline, setIsOnline] = useState(false);
+  const [reqCounts, setReqCounts] = useState();
+  const [urls, setUrls] = useState();
 
   useEffect(() => {
     const checkApiStatus = async () => {
@@ -190,6 +144,53 @@ const Status = () => {
 
     checkApiStatus();
   }, []);
+
+  useEffect(() => {
+    fetch(`https://ghibli.rest/stats`)
+      .then((response) => response.json())
+      .then((data) => {
+        const responseData = data[formattedDate];
+        console.log(responseData);
+        setUrls(responseData.map((item: any) => item.url));
+        setReqCounts(responseData.map((item: any) => item.req));
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }, []);
+
+  console.log(reqCounts);
+
+  let data2 = {
+    labels: urls,
+    datasets: [
+      {
+        label: "Usage",
+        data: reqCounts, // Example request data for each day
+        fill: true,
+        backgroundColor: "rgba(255,255,255,0.5)",
+        tension: 0.4,
+      },
+    ],
+    options: {
+      title: {
+        text: "Hello",
+        display: true,
+      },
+      scales: {
+        xAxes: [
+          {
+            ticks: {
+              display: false,
+            },
+          },
+        ],
+      },
+      legend: {
+        display: false,
+      },
+    },
+  };
 
   return (
     <>
@@ -213,6 +214,6 @@ const Status = () => {
       </main>
     </>
   );
-}
+};
 
-export default dynamic (() => Promise.resolve(Status), {ssr: false})
+export default dynamic(() => Promise.resolve(Status), { ssr: false });
