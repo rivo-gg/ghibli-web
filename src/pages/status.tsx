@@ -15,6 +15,7 @@ import Nav from "@/components/nav";
 import styles from "@/styles/Status.module.css";
 import { Line, Bar } from "react-chartjs-2";
 import dynamic from "next/dynamic";
+import Head from "next/head";
 
 ChartJS.register(
   CategoryScale,
@@ -106,6 +107,7 @@ const Status = () => {
   const [isOnline, setIsOnline] = useState(false);
   const [reqCounts, setReqCounts] = useState();
   const [urls, setUrls] = useState();
+  const [total, setTotal] = useState(0);
   const [pastWeekData, setPastWeekData] = useState();
 
   useEffect(() => {
@@ -134,6 +136,7 @@ const Status = () => {
         setReqCounts(
           responseData.map((item: any) => (item.req ? item.req : 0))
         );
+        setTotal(data.total);
 
         let dayDataList: any = [];
         getLastDays().forEach((day: any) => {
@@ -184,8 +187,14 @@ const Status = () => {
 
   return (
     <>
+      <Head>
+        <link
+          href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+          rel="stylesheet"
+        ></link>
+      </Head>
       <main className={`${styles.main}`}>
-        <Nav />
+        {/* <Nav /> */}
         <div className={`${styles.status}`}>
           <h1>{}</h1>
           <h1 className={`${styles.title}`}>
@@ -205,6 +214,20 @@ const Status = () => {
             <Bar options={optionData} data={data2} draggable={false} />
           </div>
         </div>
+        <div className={`${styles.boxcontainer}`}>
+          <div className={`${styles.box}`}>
+            <h2>Donations Recieved</h2>
+            <p>$0</p>
+            </div>
+            <div className={`${styles.box}`}>
+            <h2>Lifetime API Requests</h2>
+            <p>{total.toLocaleString()}</p>
+            </div>
+            <div className={`${styles.box}`}>
+            <h2>Discord Servers</h2>
+            <p>10+</p>
+            </div>
+         </div>
       </main>
     </>
   );

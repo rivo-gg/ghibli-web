@@ -3,7 +3,7 @@ import Nav from "@/components/nav";
 import styles from "@/styles/Home.module.css";
 import Link from "next/link";
 import highlight from "highlight.js";
-import { use, useEffect } from "react";
+import { use, useEffect, useState } from "react";
 import Image from "next/image";
 
 export default function Home() {
@@ -26,6 +26,11 @@ export default function Home() {
     let titleElement = document.getElementById("film") as HTMLInputElement;
     let title = "Howl's Moving Castle";
     if (titleElement) title = titleElement.value;
+    if (title.toLowerCase().includes("rick")) {
+      titleElement.value = "rickroll";
+      window.location.href =
+        "https://open.spotify.com/intl-de/track/4cOdK2wGLETKBW3PvgPWqT?si=726fbabd4530461d";
+    }
     const response = fetch(`https://ghibli.rest/films?search=${title}`)
       .then((res) => res.json())
       .then((data) => {
@@ -117,9 +122,9 @@ export default function Home() {
                 type="text"
                 placeholder="Film Title"
                 id="film"
-                onSubmit={(e) => fetchMovie()}
+                onKeyUp={(e) => fetchMovie()}
               />
-              <i onClick={() => fetchMovie()} className={"bx bx-search"}></i>
+              {/* <i onClick={() => fetchMovie()} className={"bx bx-search"}></i> */}
               <i
                 onClick={() => fetchRandomMovie()}
                 className={"bx bx-cube-alt"}

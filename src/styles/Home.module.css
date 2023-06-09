@@ -86,8 +86,8 @@
 }
 
 .main .welcome img {
-  width: 30%;
-  height: 30%;
+  width: 35%;
+  height: 35%;
   margin-left: 50px;
   border-radius: 6px;
   margin-top: -200px;
@@ -100,7 +100,7 @@
   background-color: #000000;
   width: calc(100% + 800px);
   margin-top: 280px;
-  transition: ease-out .2s;
+  transition: ease-out 0.2s;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -216,4 +216,121 @@
   user-select: text;
   transition: ease 0.2s;
   height: fit-content;
+}
+
+@media screen and (max-width: 2200px) {
+  .main .welcome img {
+    width: 40%;
+    height: 40%;
+  }
+}
+
+@media screen and (max-width: 2000px) {
+  .main {
+    padding: 40px 200px;
+  }
+
+  .main .welcome img {
+    width: 45%;
+    height: 45%;
+    margin-top: -175px;
+  }
+}
+
+@media screen and (max-width: 1600px) {
+  .main {
+    padding: 40px 100px;
+  }
+}
+
+@media screen and (max-width: 1400px) {
+  .main {
+    padding: 40px 70px;
+  }
+
+  .main .welcome img {
+    margin-top: -120px;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .main .welcome img {
+    margin-top: -100px;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .main .welcome img {
+    margin-top: -80px;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .main .welcome {
+    margin-top: 300px;
+    margin-bottom: 550px;
+  }
+
+  .main .welcome .text {
+    align-items: center;
+  }
+
+  .main .welcome h1 {
+    text-align: center;
+  }
+
+  .main .welcome p {
+    text-align: center;
+  }
+
+  .main .welcome .buttons .button {
+    text-align: center;
+    align-items: center;
+  }
+
+  .main .welcome img {
+    display: none;
+  }
+
+  .main .demo {
+    flex-direction: column;
+  }
+
+  .main .demo .info div input {
+    width: 100%;
+  }
+
+  .main .demo .response {
+    margin-top: 20px;
+    text-align: left;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .main .welcome h1 {
+    font-size: 50px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .main {
+    padding: 20px;
+  }
+
+  .main .welcome {
+    margin-top: 60px;
+  }
+
+  .main .welcome h1 {
+    font-size: 50px;
+  }
+
+  .main .welcome .buttons {
+    flex-direction: column;
+  }
+
+  .main .welcome .buttons .button:not(:first-child) {
+    margin-top: 7px;
+  }
 }

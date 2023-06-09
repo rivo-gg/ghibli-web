@@ -31,7 +31,18 @@ export default function Nav() {
             Donate
           </Link>
         </div>
+        <i className={`bx bx-menu`}></i>
       </nav>
+      <div className={`${styles.nav__mobile}`}>
+        <h1>ghibli.rest</h1>
+        <Link href="/">Home</Link>
+        <a onClick={() => scrollToClass("demo")}>Demo</a>
+        <Link href="/status">Status</Link>
+        <Link href="/docs">Docs</Link>
+        <Link href="https://donate.ghibli.rest" className={styles.donate}>
+          Donate
+        </Link>
+      </div>
     </>
   );
 }
