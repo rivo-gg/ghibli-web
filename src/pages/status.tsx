@@ -194,7 +194,7 @@ const Status = () => {
         ></link>
       </Head>
       <main className={`${styles.main}`}>
-        {/* <Nav /> */}
+        <Nav />
         <div className={`${styles.status}`}>
           <h1>{}</h1>
           <h1 className={`${styles.title}`}>
