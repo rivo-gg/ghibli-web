@@ -109,6 +109,7 @@ const Status = () => {
   const [urls, setUrls] = useState();
   const [total, setTotal] = useState(0);
   const [pastWeekData, setPastWeekData] = useState();
+  const [botCount, setBotCount] = useState(0);
 
   useEffect(() => {
     const checkApiStatus = async () => {
@@ -153,6 +154,17 @@ const Status = () => {
         });
 
         setPastWeekData(dayDataList);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    fetch('https://japi.rest/discord/v1/application/1112770259024351252')
+      .then((response) => response.json())
+      .then((data) => {
+        setBotCount(data.data.bot.approximate_guild_count);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -210,22 +222,22 @@ const Status = () => {
             <Line options={optionData} data={data} draggable={false} />
           </div>
           <div className={`${styles.container}`}>
-            <h1 className={styles.legend}>Most requested endpoints</h1>
+            <h1 className={styles.legend}>Most requested endpoints today</h1>
             <Bar options={optionData} data={data2} draggable={false} />
           </div>
         </div>
         <div className={`${styles.boxcontainer}`}>
           <div className={`${styles.box}`}>
-            <h2>Donations Recieved</h2>
             <p>$0</p>
+            <h2>Donations Recieved</h2>
             </div>
             <div className={`${styles.box}`}>
-            <h2>Lifetime API Requests</h2>
             <p>{total.toLocaleString()}</p>
+            <h2>Lifetime API Requests</h2>
             </div>
             <div className={`${styles.box}`}>
+            <p>{botCount.toLocaleString()}</p>
             <h2>Discord Servers</h2>
-            <p>10+</p>
             </div>
          </div>
       </main>
