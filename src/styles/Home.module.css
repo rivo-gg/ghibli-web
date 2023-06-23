@@ -85,8 +85,8 @@
 }
 
 .main .welcome img {
-  width: 35%;
-  height: 35%;
+  max-height: 33%;
+  max-width: 33%;
   margin-left: 50px;
   border-radius: 6px;
   margin-top: -200px;
@@ -318,7 +318,8 @@
   }
 
   .main .welcome {
-    margin-top: 60px;
+    margin-top: 100px;
+    margin-bottom: 160px;
   }
 
   .main .welcome h1 {
@@ -331,5 +332,9 @@
 
   .main .welcome .buttons .button:not(:first-child) {
     margin-top: 7px;
+  }
+
+  .main .demo {
+    margin-top: 0;
   }
 }

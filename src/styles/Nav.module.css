@@ -5,6 +5,10 @@
   z-index: 105;
 }
 
+.nav__mobile {
+  visibility: hidden;
+}
+
 .nav .title {
   display: flex;
   flex-direction: row;
@@ -109,6 +113,7 @@
   display: none;
   color: #ffffff;
   font-size: 30px;
+  cursor: pointer;
 }
 
 .nav__mobile {
@@ -145,6 +150,9 @@
 
   .nav i {
     display: block;
+    position: absolute;
+    margin-right: 30px;
+    right: 0;
   }
 
   .nav {
@@ -153,7 +161,54 @@
   }
 
   .nav__mobile {
-    opacity: 1;
+    visibility: hidden;
+    opacity: 0;
+    display: flex;
+    transition: ease 0.2s;
+  }
+
+  .nav__mobile.visible {
     visibility: visible;
+    opacity: 1;
+    display: flex;
+    animation: navShow 0.2s ease;
+  }
+
+  .nav__mobile.hidden {
+    animation: navHide 0.4s ease;
+  }
+
+  @keyframes navShow {
+    0% {
+      display: flex;
+      opacity: 0;
+      visibility: visible;
+    }
+
+    100% {
+      display: flex;
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  @keyframes navHide {
+    0% {
+      display: flex;
+      opacity: 1;
+      visibility: visible;
+    }
+
+    100% {
+      display: flex;
+      opacity: 0;
+      visibility: visible;
+    }
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .nav i {
+    margin-right: 0;
   }
 }

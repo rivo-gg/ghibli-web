@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import styles from "@/styles/Nav.module.css";
 import Link from "next/link";
@@ -15,6 +15,9 @@ export default function Nav() {
       window.scrollTo({ top: element.offsetTop - offset, behavior: "smooth" });
     }
   };
+
+  const [navbarVisible, setNavbarVisible] = useState(false);
+
   return (
     <>
       <nav className={`${styles.nav}`}>
@@ -31,12 +34,35 @@ export default function Nav() {
             Donate
           </Link>
         </div>
-        <i className={`bx bx-menu`}></i>
+        <i
+          className={`bx bx-menu`}
+          onClick={() => setNavbarVisible(!navbarVisible)}
+        ></i>
       </nav>
-      <div className={`${styles.nav__mobile}`}>
-        <h1>ghibli.rest</h1>
-        <Link href="/">Home</Link>
-        <a onClick={() => scrollToClass("demo")}>Demo</a>
+      <div
+        className={`${styles.nav__mobile} ${
+          navbarVisible ? styles.visible : styles.hidden
+        }`}
+      >
+        <a
+          onClick={() => {
+            window.location.href = "/";
+          }}
+        >
+          Home
+        </a>
+        <a
+          onClick={() => {
+            setNavbarVisible(false);
+            document.body.scrollTo({
+              behavior: "smooth",
+              top: document.body.scrollHeight,
+              left: 0,
+            });
+          }}
+        >
+          Demo
+        </a>
         <Link href="/status">Status</Link>
         <Link href="/docs">Docs</Link>
         <Link href="https://donate.ghibli.rest" className={styles.donate}>
