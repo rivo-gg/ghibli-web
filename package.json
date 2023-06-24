@@ -11,7 +11,7 @@
   "dependencies": {
     "@skyra/discord-components-react": "^3.6.0",
     "@types/node": "20.3.1",
-    "@types/react": "18.2.8",
+    "@types/react": "18.2.14",
     "@types/react-dom": "18.2.4",
     "boxicons": "^2.1.4",
     "chart.js": "^4.3.0",
