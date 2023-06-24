@@ -338,3 +338,19 @@
     margin-top: 0;
   }
 }
+
+.KofiButton {
+  padding: 20px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 0;
+}
+
+@media screen and (max-width: 550px) {
+  /* Adjust the button style for smaller screens */
+  .KofiButton  {
+      font-size: 14px;
+      padding: 20px;
+  }
+}
