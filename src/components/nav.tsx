@@ -29,7 +29,7 @@ export default function Nav() {
           <Link href="/">Home</Link>
           <a onClick={() => scrollToClass("demo")}>Demo</a>
           <Link href="/status">Status</Link>
-          <Link href="/docs">Docs</Link>
+          <Link href="https://docs.ghibli.rest">Docs</Link>
           <Link href="https://donate.ghibli.rest" className={styles.donate}>
             Donate
           </Link>
@@ -64,7 +64,7 @@ export default function Nav() {
           Demo
         </a>
         <Link href="/status">Status</Link>
-        <Link href="/docs">Docs</Link>
+        <Link href="https://docs.ghibli.rest">Docs</Link>
         <Link href="https://donate.ghibli.rest" className={styles.donate}>
           Donate
         </Link>

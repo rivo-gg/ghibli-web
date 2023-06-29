@@ -101,7 +101,7 @@ export default function Home() {
               >
                 Demo
               </a>
-              <Link href="/docs" className={`${styles.button}`}>
+              <Link href="https://docs.ghibli.rest" className={`${styles.button}`}>
                 Documentation
               </Link>
             </div>
