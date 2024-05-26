@@ -4,7 +4,6 @@ import styles from "@/styles/Home.module.css";
 import Link from "next/link";
 import highlight from "highlight.js";
 import { use, useEffect, useState } from "react";
-import KofiButton from "kofi-button"
 import Image from "next/image";
 
 export default function Home() {
@@ -86,21 +85,14 @@ export default function Home() {
       </Head>
       <main className={`${styles.main}`}>
         <Nav />
-        <div className={styles.KofiButton}><KofiButton color="#ff5f5d" title="Donate" kofiID="ghiblirest" /></div>
         <div className={`${styles.welcome}`}>
           <div className={`${styles.text}`}>
             <h1>ghibli.rest</h1>
             <p>
               Explore the Magical World of Studio Ghibli with ghibli.rest, the
-              Discord Bot for All Ghibli Enthusiasts
+              API and Discord Bot for All Studio Ghibli Enthusiasts
             </p>
             <div className={`${styles.buttons}`}>
-              <a
-                onClick={() => scrollToClass("demo")}
-                className={`${styles.button}`}
-              >
-                Demo
-              </a>
               <Link href="https://docs.ghibli.rest" className={`${styles.button}`}>
                 Documentation
               </Link>

@@ -46,32 +46,23 @@ export const optionData = {
   },
   tooltips: {
     callbacks: {
-      label: (tooltipItem: any) =>
+      label: (tooltipItem: { yLabel: any; xLabel: any; }) =>
         `${tooltipItem.yLabel}: ${tooltipItem.xLabel}`,
       title: () => null,
     },
   },
 };
 
-const dayMap: any = {
-  0: "Sunday",
-  1: "Monday",
-  2: "Tuesday",
-  3: "Wednesday",
-  4: "Thursday",
-  5: "Friday",
-  6: "Saturday",
-};
 
-const getLastDays: any = () => {
-  const days: string[] = [];
-  const today: Date = new Date();
+const getLastDays = () => {
+  const days = [];
+  const today = new Date();
 
   for (let i = 6; i >= 0; i--) {
-    const tag: Date = new Date(today);
+    const tag = new Date(today);
     tag.setDate(tag.getDate() - i);
 
-    const tagString: string = tag.toLocaleDateString("de-DE", {
+    const tagString = tag.toLocaleDateString("de-DE", {
       day: "2-digit",
       month: "2-digit",
       year: "numeric",
@@ -81,6 +72,16 @@ const getLastDays: any = () => {
   }
 
   return days;
+};
+
+const dayMap: { [key: number]: string } = {
+  0: "Sunday",
+  1: "Monday",
+  2: "Tuesday",
+  3: "Wednesday",
+  4: "Thursday",
+  5: "Friday",
+  6: "Saturday",
 };
 
 const getPastWeekDays = () => {
@@ -96,20 +97,71 @@ const getPastWeekDays = () => {
   return pastWeekDays;
 };
 
-const currentDate = new Date();
-const day = String(currentDate.getDate()).padStart(2, "0");
-const month = String(currentDate.getMonth() + 1).padStart(2, "0");
-const year = currentDate.getFullYear();
+export async function getServerSideProps() {
+  const currentDate = new Date();
+  const day = String(currentDate.getDate()).padStart(2, "0");
+  const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+  const year = currentDate.getFullYear();
+  const formattedDate = `${day}.${month}.${year}`;
 
-const formattedDate = `${day}.${month}.${year}`;
+  let urls = [];
+  let reqCounts = [];
+  let total = 0;
+  let pastWeekData = [];
+  let botCount = 0;
 
-const Status = () => {
+  try {
+    const apiResponse = await fetch('https://ghibli.rest/stats');
+    const apiData = await apiResponse.json();
+    const responseData = apiData[formattedDate];
+    urls = responseData.map((item: { url: any; }) => item.url);
+    reqCounts = responseData.map((item: { req: any; }) => item.req ? item.req : 0);
+    total = apiData.total;
+
+    let dayDataList: any[] = [];
+    getLastDays().forEach((day) => {
+      const dayData = apiData[day];
+      if (dayData) {
+        dayDataList.push(
+          dayData.map((item: { req: any; }) => item.req).reduce((a: any, b: any) => a + b, 0)
+        );
+      } else {
+        dayDataList.push(0);
+      }
+    });
+
+    pastWeekData = dayDataList;
+  } catch (error) {
+    console.error("Error fetching stats:", error);
+  }
+
+  try {
+    const discordResponse = await fetch('https://japi.rest/discord/v1/application/1112770259024351252');
+    const discordData = await discordResponse.json();
+    botCount = discordData.data.bot.approximate_guild_count;
+  } catch (error) {
+    console.error("Error fetching Discord data:", error);
+  }
+
+  return {
+    props: {
+      urls,
+      reqCounts,
+      total,
+      pastWeekData,
+      botCount,
+    },
+  };
+}
+
+const Status = ({ urls, reqCounts, total, pastWeekData, botCount }: {
+  urls: string[],
+  reqCounts: number[],
+  total: number,
+  pastWeekData: number[],
+  botCount: number
+}) => {
   const [isOnline, setIsOnline] = useState(false);
-  const [reqCounts, setReqCounts] = useState();
-  const [urls, setUrls] = useState();
-  const [total, setTotal] = useState(0);
-  const [pastWeekData, setPastWeekData] = useState();
-  const [botCount, setBotCount] = useState(0);
 
   useEffect(() => {
     const checkApiStatus = async () => {
@@ -126,49 +178,6 @@ const Status = () => {
     };
 
     checkApiStatus();
-  }, []);
-
-  useEffect(() => {
-    fetch(`https://ghibli.rest/stats`)
-      .then((response) => response.json())
-      .then((data) => {
-        const responseData = data[formattedDate];
-        setUrls(responseData.map((item: any) => item.url));
-        setReqCounts(
-          responseData.map((item: any) => (item.req ? item.req : 0))
-        );
-        setTotal(data.total);
-
-        let dayDataList: any = [];
-        getLastDays().forEach((day: any) => {
-          const dayData = data[day];
-          if (dayData) {
-            dayDataList.push(
-              dayData
-                .map((item: any) => item.req)
-                .reduce((a: any, b: any) => a + b, 0)
-            );
-          } else {
-            dayDataList.push(0);
-          }
-        });
-
-        setPastWeekData(dayDataList);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  }, []);
-
-  useEffect(() => {
-    fetch('https://japi.rest/discord/v1/application/1112770259024351252')
-      .then((response) => response.json())
-      .then((data) => {
-        setBotCount(data.data.bot.approximate_guild_count);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
   }, []);
 
   const data = {
@@ -196,6 +205,7 @@ const Status = () => {
       },
     ],
   };
+
 
   return (
     <>

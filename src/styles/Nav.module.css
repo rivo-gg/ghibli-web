@@ -15,6 +15,10 @@
   align-items: center;
 }
 
+.nav .title:hover {
+  cursor: pointer;
+}
+
 .nav .title img {
   width: 45px;
   height: 45px;
